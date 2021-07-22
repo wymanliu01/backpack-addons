@@ -9,7 +9,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "laravel/laravel": "8.x-dev"
+    },
     "autoload": {
         "psr-4": {
             "Wymanliu01\\BackpackAddons\\": "src/"
