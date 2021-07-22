@@ -1,6 +1,6 @@
 <?php
 
-namespace Wymanliu01\app\Models\Traits;
+namespace Wymanliu01\BackpackAddons\app\Models\Traits;
 
 trait ImageTrait
 {
