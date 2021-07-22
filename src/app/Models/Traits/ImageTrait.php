@@ -2,6 +2,8 @@
 
 namespace Wymanliu01\BackpackAddons\app\Models\Traits;
 
+use Illuminate\Support\Str;
+
 trait ImageTrait
 {
     /**
