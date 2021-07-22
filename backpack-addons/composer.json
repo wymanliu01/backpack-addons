@@ -1,0 +1,23 @@
+{
+    "name": "wymanliu01/backpack-addons",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wyman Liu",
+            "email": "wyman@digisalad.cool"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Digisalad\\BackpackAddons\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Digisalad\\BackpackAddons\\": "src/"
+        }
+    }
+}
