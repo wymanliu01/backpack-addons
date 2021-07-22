@@ -1,6 +1,6 @@
 <?php
 
-namespace BackpackAddons;
+namespace Wymanliu01;
 
 use Illuminate\Support\ServiceProvider;
 

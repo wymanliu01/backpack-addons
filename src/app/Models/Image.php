@@ -1,6 +1,6 @@
 <?php
 
-namespace BackpackAddons\app\Models;
+namespace Wymanliu01\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

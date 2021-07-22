@@ -1,6 +1,6 @@
 <?php
 
-namespace BackpackAddons\app\Http\Controllers\Operations;
+namespace Wymanliu01\app\Http\Controllers\Operations;
 
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
