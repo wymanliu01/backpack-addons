@@ -4,17 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f6d4d01c0b9ca4a2feeeb7c7d757ff5
+class ComposerStaticInit7a35dbaf748c639ea2f4d5155ab7e294
 {
     public static $prefixLengthsPsr4 = array (
-        'D' => 
+        'W' => 
         array (
-            'Digisalad\\BackpackAddons\\' => 25,
+            'Wymanliu01\\BackpackAddons\\' => 26,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Digisalad\\BackpackAddons\\' => 
+        'Wymanliu01\\BackpackAddons\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
             1 => __DIR__ . '/../..' . '/src',
@@ -28,9 +28,9 @@ class ComposerStaticInit0f6d4d01c0b9ca4a2feeeb7c7d757ff5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f6d4d01c0b9ca4a2feeeb7c7d757ff5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f6d4d01c0b9ca4a2feeeb7c7d757ff5::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0f6d4d01c0b9ca4a2feeeb7c7d757ff5::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7a35dbaf748c639ea2f4d5155ab7e294::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7a35dbaf748c639ea2f4d5155ab7e294::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit7a35dbaf748c639ea2f4d5155ab7e294::$classMap;
 
         }, null, ClassLoader::class);
     }

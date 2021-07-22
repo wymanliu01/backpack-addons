@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Digisalad\\BackpackAddons\\' => array($baseDir . '/src', $baseDir . '/src'),
+    'Wymanliu01\\BackpackAddons\\' => array($baseDir . '/src', $baseDir . '/src'),
 );
