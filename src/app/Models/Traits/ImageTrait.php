@@ -3,6 +3,7 @@
 namespace Wymanliu01\BackpackAddons\app\Models\Traits;
 
 use Illuminate\Support\Str;
+use Wymanliu01\BackpackAddons\app\Models\Image;
 
 trait ImageTrait
 {
