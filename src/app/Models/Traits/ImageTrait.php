@@ -26,26 +26,23 @@ trait ImageTrait
         // 2.
         // when $value is a base64 string, cms update or create a new image,
         // do upload file and update/create record, then delete the original file
-        if (!is_null(config("filesystems.disks.$disk.root")) && Str::before($value, '/') === 'data:image') {
+        $extension = Str::after(Str::before($value, ';'), '/');
+        $filename = md5($value . time()) . ".$extension";
+        $filePath = "images/$this->table/$column/$filename";
 
-            $extension = Str::after(Str::before($value, ';'), '/');
-            $filename = md5($value . time()) . ".$extension";
-            $filePath = "images/$this->table/$column/$filename";
+        $imageBase64 = base64_decode(Str::after($value, ','));
 
-            $imageBase64 = base64_decode(Str::after($value, ','));
+        Storage::disk($disk)->put($filePath, $imageBase64);
 
-            Storage::disk($disk)->put($filePath, $imageBase64);
+        if (!empty($thisImage)) {
+            Storage::disk($disk)->delete($thisImage);
+        }
 
-            if (!empty($thisImage)) {
-                Storage::disk($disk)->delete($thisImage);
-            }
-
-            if (!empty($this->id)) {
-                Image::updateOrCreate(
-                    ['source_type' => self::class, 'source_id' => $this->id, 'column_name' => $column],
-                    ['url' => $filePath]
-                );
-            }
+        if (!empty($this->id)) {
+            Image::updateOrCreate(
+                ['source_type' => self::class, 'source_id' => $this->id, 'column_name' => $column],
+                ['url' => $filePath]
+            );
         }
 
         // 3.
@@ -81,10 +78,24 @@ trait ImageTrait
             }
 
             $disk = config('filesystems.default');
-            return config("filesystems.disks.$disk.url") . "/$image->url";
+
+            $baseUrl = config("filesystems.disks.$disk.url");
+
+            if (empty($baseUrl) && $disk == 's3') {
+                $baseUrl = $this->getGuessedS3Url();
+            }
+
+            return "$baseUrl/$image->url";
 
         } else {
             return null;
         }
+    }
+
+    private function getGuessedS3Url()
+    {
+        $bucket = config('filesystems.disks.s3.bucket');
+        $region = config('filesystems.disks.s3.region');
+        return "https://$bucket.s3.$region.amazonaws.com";
     }
 }
