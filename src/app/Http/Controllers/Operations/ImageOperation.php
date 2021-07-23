@@ -2,6 +2,7 @@
 
 namespace Wymanliu01\BackpackAddons\app\Http\Controllers\Operations;
 
+use Exception;
 use Illuminate\Support\Str;
 
 trait ImageOperation
