@@ -1,15 +1,17 @@
 <?php
 
-namespace Wymanliu01;
+namespace Wymanliu01\BackpackAddons;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class BackpackAddonsServiceProvider
+ * @package Wymanliu01\BackpackAddons
+ */
 class BackpackAddonsServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
      *
-     * @return void
      */
     public function register()
     {
@@ -17,12 +19,10 @@ class BackpackAddonsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap services.
      *
-     * @return void
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 }

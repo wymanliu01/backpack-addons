@@ -2,6 +2,7 @@
 
 namespace Wymanliu01\BackpackAddons\app\Models\Traits;
 
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Wymanliu01\BackpackAddons\app\Models\Image;
@@ -97,5 +98,34 @@ trait ImageTrait
         $bucket = config('filesystems.disks.s3.bucket');
         $region = config('filesystems.disks.s3.region');
         return "https://$bucket.s3.$region.amazonaws.com";
+    }
+
+    private function checkImageModelProperly()
+    {
+
+        if (!isset($this->imageable) || !is_array($this->imageable)) {
+            $class = get_class($this);
+            throw new Exception("Attribute \$imageable in class $class is not set up correctly");
+        }
+
+        if (empty($this->imageable)) {
+            return;
+        }
+
+        foreach ($this->imageable as $column) {
+
+            $expectedAccessor = 'get' . Str::ucfirst(Str::camel($column)) . 'Attribute';
+            $expectedMutator = 'set' . Str::ucfirst(Str::camel($column)) . 'Attribute';
+
+            if (!method_exists($this, $expectedAccessor)) {
+                $class = get_class($this);
+                throw new Exception("Method $expectedAccessor in class $class is not set up correctly");
+            }
+
+            if (!method_exists($this, $expectedMutator)) {
+                $class = get_class($this);
+                throw new Exception("Method $expectedMutator in class $class is not set up correctly");
+            }
+        }
     }
 }

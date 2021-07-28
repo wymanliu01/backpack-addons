@@ -10,6 +10,10 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Prologue\Alerts\Facades\Alert;
 
+/**
+ * Trait BackpackOperation
+ * @package Wymanliu01\BackpackAddons\app\Http\Controllers\Operations
+ */
 trait BackpackOperation
 {
     use ListOperation;
@@ -24,6 +28,8 @@ trait BackpackOperation
      */
     public function store()
     {
+        $this->processCheckModelProperly();
+
         $this->crud->hasAccessOrFail('create');
 
         // insert item in the db
@@ -47,6 +53,8 @@ trait BackpackOperation
      */
     public function update()
     {
+        $this->processCheckModelProperly();
+
         $this->crud->hasAccessOrFail('update');
 
         // execute the FormRequest authorization and validation, if one is required
@@ -70,9 +78,12 @@ trait BackpackOperation
     /**
      * @param $id
      * @return mixed
+     * @throws Exception
      */
     public function destroy($id)
     {
+        $this->processCheckModelProperly();
+
         $this->crud->hasAccessOrFail('delete');
 
         // get entry ID from Request (makes sure its the last ID for nested resources)
@@ -101,5 +112,18 @@ trait BackpackOperation
         if (in_array(ImageOperation::class, class_uses($this))) {
             $this->destroyEntryImages($this->crud->getEntry($id));
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function processCheckModelProperly()
+    {
+        if (!method_exists($this->crud->model, 'checkModelProperly')) {
+            $class = get_class($this->crud->model);
+            throw new Exception("Interface WithBackpackOperation in class $class is not set up correctly");
+        }
+
+        $this->crud->model->checkModelProperly();
     }
 }
