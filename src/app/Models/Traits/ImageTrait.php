@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Wymanliu01\BackpackAddons\app\Models\Image;
 
+/**
+ * Trait ImageTrait
+ * @package Wymanliu01\BackpackAddons\app\Models\Traits
+ */
 trait ImageTrait
 {
     /**
@@ -25,6 +29,23 @@ trait ImageTrait
         $thisImage = Str::after($this->getImage($column), config("filesystems.disks.$disk.url") . '/');
 
         // 2.
+        // if $value is empty or is null, means cms didnt pass the photo or photo has been removed
+        // do delete file and record if the original file and record are found
+        if (empty($value)) {
+
+            if (!empty($thisImage)) {
+                Storage::disk($disk)->delete($thisImage);
+            }
+
+            Image::whereSourceType(self::class)
+                ->whereSourceId($this->id)
+                ->whereColumnName($column)
+                ->delete();
+
+            return;
+        }
+
+        // 3.
         // when $value is a base64 string, cms update or create a new image,
         // do upload file and update/create record, then delete the original file
         $extension = Str::after(Str::before($value, ';'), '/');
@@ -45,25 +66,11 @@ trait ImageTrait
                 ['url' => $filePath]
             );
         }
-
-        // 3.
-        // if $value is empty or is null, means cms didnt pass the photo or photo has been removed
-        // do delete file and record if the original file and record are found
-        if (empty($value)) {
-            if (!empty($thisImage)) {
-                Storage::disk($disk)->delete($thisImage);
-            }
-
-            Image::whereSourceType(self::class)
-                ->whereSourceId($this->id)
-                ->whereColumnName($column)
-                ->delete();
-        }
     }
 
     /**
-     * @return string
-     * @noinspection PhpUnused
+     * @param $column
+     * @return string|null
      */
     public function getImage($column): ?string
     {
@@ -93,13 +100,19 @@ trait ImageTrait
         }
     }
 
-    private function getGuessedS3Url()
+    /**
+     * @return string
+     */
+    private function getGuessedS3Url(): string
     {
         $bucket = config('filesystems.disks.s3.bucket');
         $region = config('filesystems.disks.s3.region');
         return "https://$bucket.s3.$region.amazonaws.com";
     }
 
+    /**
+     * @throws Exception
+     */
     private function checkImageModelProperly()
     {
 
